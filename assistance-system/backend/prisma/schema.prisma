@@ -1,0 +1,35 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Employee {
+  id          String   @id @default(uuid())
+  document_id String   @unique
+  full_name   String
+  entries     Entry[]
+
+  @@map("employees")
+}
+
+model Entry {
+  id              String    @id @default(uuid())
+  employee_id     String
+  employee        Employee  @relation(fields: [employee_id], references: [id])
+  entry_time      DateTime  @default(now())
+  has_laptop      Boolean   @default(false)
+  laptop_brand    String?
+  laptop_serial   String?
+  authorized_by   String?
+  exit_time       DateTime?
+  withdraw_laptop Boolean?
+  verified_by     String?
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @updatedAt
+
+  @@map("entries")
+}

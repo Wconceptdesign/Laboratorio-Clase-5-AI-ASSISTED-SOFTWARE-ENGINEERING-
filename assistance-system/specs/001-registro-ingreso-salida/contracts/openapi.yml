@@ -1,0 +1,56 @@
+openapi: 3.0.0
+info:
+  title: Assistance System API
+  version: 1.0.0
+paths:
+  /auth/login:
+    post:
+      summary: Authenticate a user MVP
+      responses:
+        '200':
+          description: OK
+  /employees/{document_id}:
+    get:
+      summary: Fetch employee basic details by doc id
+      parameters:
+        - in: path
+          name: document_id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Employee found
+  /entries:
+    post:
+      summary: Register entry
+      responses:
+        '201':
+          description: Created
+  /entries/open/{document_id}:
+    get:
+      summary: Get current open entry for a document_id
+      responses:
+        '200':
+          description: Open entry details
+  /entries/{id}/exit:
+    patch:
+      summary: Register exit
+      responses:
+        '200':
+          description: Marked as exited
+  /reports/export:
+    get:
+      summary: Download XLSX report
+      parameters:
+        - in: query
+          name: start_date
+          schema:
+            type: string
+        - in: query
+          name: end_date
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Excel stream
